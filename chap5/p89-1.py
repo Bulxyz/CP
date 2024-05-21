@@ -25,3 +25,9 @@ for func in functions:
         print(f"Central Diff: {central_diff(func, t)}")
         print(f"Extrapolated Diff: {extrapolated_diff(func, t)}")
         print()
+
+######################################################################################
+"""(a)"""
+
+
+
