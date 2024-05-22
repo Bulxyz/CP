@@ -1,31 +1,45 @@
-import numpy as np
+import math
 
-def forward_diff(f, t, h=1e-7):
-    return (f(t + h) - f(t)) / h
+# Define functions to differentiate
+def func_cos(t):
+  return math.cos(t)
 
-def central_diff(f, t, h=1e-7):
-    return (f(t + h/2) - f(t - h/2)) / h
+def func_exp(t):
+  return math.exp(t)
 
-def extrapolated_diff(f, t, h=1e-7):
-    return (8 
+# Numerical differentiation method
+def numerical_diff(func, t, h):
 
-*(f(t + h/4) - f(t - h/4)) - (f(t + h/2) - f(t - h/2))) / (3*
+  # Forward difference
+  fd = (func(t+h) - func(t)) / h   
 
- h)
+  # Central difference 
+  cd = (func(t+h/2) - func(t-h/2)) / h  
 
-# Define the functions
-functions = [np.cos, np.exp]  # cos(t), exp(t)
-t_values = [0.1, 1, 100]  # Values of t
+  # Calculate points for extrapolated difference
+  th4 = t + h/4 
+  tmh4 = t - h/4
+  th2 = t + h/2
+  tmh2 = t - h/2
 
-# Implement the differentiation algorithms for each function at each value of t
-for func in functions:
-    for t in t_values:
-        print(f"Function: {func.__name__}, t: {t}")
-        print(f"Forward Diff: {forward_diff(func, t)}")
-        print(f"Central Diff: {central_diff(func, t)}")
-        print(f"Extrapolated Diff: {extrapolated_diff(func, t)}")
-        print()
+  # Extrapolated difference
+  ed = (8*(func(th4)-func(tmh4)) - (func(th2)-func(tmh2))) / 3/h
 
+  # Return derivatives as tuple
+  return fd, cd, ed
+
+# Step size  
+h = 0.1
+
+# Differentiate cos(t) at sample points
+print("cos(t) results:")
+for t in [0.1, 1, 100]:
+  print(numerical_diff(func_cos, t, h))
+
+# Differentiate exp(t)  
+print("\nexp(t) results:")  
+for t in [0.1, 1, 100]:
+  print(numerical_diff(func_exp, t, h))
 ######################################################################################
 
 
