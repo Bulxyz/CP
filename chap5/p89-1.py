@@ -1,46 +1,87 @@
-import math
+import numpy as np
+def forward_diff(f, t, h):
+    return (f(t + h) - f(t)) / h
 
-# Define functions to differentiate
-def func_cos(t):
-  return math.cos(t)
+def central_diff(f, t, h):
+    return (f(t + h/2) - f(t - h/2)) / h
 
-def func_exp(t):
-  return math.exp(t)
+def extrapolated_diff(f, t, h):
+    return (8*(f(t + h/4) - f(t - h/4)) - (f(t + h/2) - f(t - h/2))) / (3*h)
 
-# Numerical differentiation method
-def numerical_diff(func, t, h):
+def f(x):
+    # Define your function here
+    return x**2
 
-  # Forward difference
-  fd = (func(t+h) - func(t)) / h   
+def df(x):
+    # Define the derivative of your function here
+    return 2*x
 
-  # Central difference 
-  cd = (func(t+h/2) - func(t-h/2)) / h  
+x = 1.0  # Point at which to differentiate
+h = 1.0  # Initial step size
+eps = np.finfo(float).eps  # Machine precision
 
-  # Calculate points for extrapolated difference
-  th4 = t + h/4 
-  tmh4 = t - h/4
-  th2 = t + h/2
-  tmh2 = t - h/2
-
-  # Extrapolated difference
-  ed = (8*(func(th4)-func(tmh4)) - (func(th2)-func(tmh2))) / 3/h
-
-  # Return derivatives as tuple
-  return fd, cd, ed
-
-# Step size  
-h = 0.1
-
-# Differentiate cos(t) at sample points
-print("cos(t) results:")
-for t in [0.1, 1, 100]:
-  print(numerical_diff(func_cos, t, h))
-
-# Differentiate exp(t)  
-print("\nexp(t) results:")  
-for t in [0.1, 1, 100]:
-  print(numerical_diff(func_exp, t, h))
+while h > eps:
+    fd = forward_diff(f, x, h)
+    cd = central_diff(f, x, h)
+    ed = extrapolated_diff(f, x, h)
+    
+    exact = df(x)
+    
+    fd_error = abs((fd - exact) / exact)
+    cd_error = abs((cd - exact) / exact)
+    ed_error = abs((ed - exact) / exact)
+    
+    print(f"h: {h}, Forward Diff: {fd}, Error: {fd_error}")
+    print(f"h: {h}, Central Diff: {cd}, Error: {cd_error}")
+    print(f"h: {h}, Extrapolated Diff: {ed}, Error: {ed_error}")
+    print()
+    
+    h /= 2  # Reduce the step size
 ######################################################################################
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Define the functions for forward, central, and extrapolated differentiation
+def forward_diff(f, t, h):
+    return (f(t + h) - f(t)) / h
+
+def central_diff(f, t, h):
+    return (f(t + h/2) - f(t - h/2)) / h
+
+def extrapolated_diff(f, t, h):
+    return (8
+
+*(f(t + h/4) - f(t - h/4)) - (f(t + h/2) - f(t - h/2))) / (3*
+
+h)
+
+# Define the function f(x) for differentiation
+def f(x):
+    return np.sin(x)  # Example function, you can replace with any function
+
+# Define the true derivative of f(x) for error calculation
+def true_derivative(x):
+    return np.cos(x)  # True derivative of the example function
+
+# Define the range of h values for calculation
+h_values = np.logspace(-10, 0, 100)
+
+# Calculate the errors for each differentiation method at different h values
+errors_forward = np.abs(forward_diff(f, 1, h_values) - true_derivative(1))
+errors_central = np.abs(central_diff(f, 1, h_values) - true_derivative(1))
+errors_extrapolated = np.abs(extrapolated_diff(f, 1, h_values) - true_derivative(1))
+
+# Plot log10 |𝜖| vs. log10 h
+plt.figure()
+plt.loglog(h_values, errors_forward, label='Forward Difference')
+plt.loglog(h_values, errors_central, label='Central Difference')
+plt.loglog(h_values, errors_extrapolated, label='Extrapolated Difference')
+plt.xlabel('log10 h')
+plt.ylabel('log10 |𝜖|')
+plt.legend()
+plt.grid(True)
+plt.show()
+########################################################################################
 
 
 
