@@ -9,11 +9,11 @@ def extrapolated_diff(f, t, h):
     return (8*(f(t + h/4) - f(t - h/4)) - (f(t + h/2) - f(t - h/2))) / (3*h)
 
 def f(x):
-    # Define your function here
+    # Defining function here
     return x**2
 
 def df(x):
-    # Define the derivative of your function here
+    # Define the derivative of function here
     return 2*x
 
 x = 1.0  # Point at which to differentiate
