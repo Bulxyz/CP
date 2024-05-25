@@ -15,6 +15,7 @@ eigenvalues = np.linalg.eig(A)[0]
 print("Eigenvalues of A:", eigenvalues)
 #######################################################
 #part(b)
+import numpy as np
 # Define the eigenvalue and eigenvector
 eigenvalue = 5
 eigenvector = np.array([-1, -2, 1]) / np.sqrt(6)
@@ -29,6 +30,7 @@ is_equal = np.allclose(product, eigenvalue * eigenvector)
 print("Is the product equal to the eigenvalue?", is_equal)
 ########################################################
 #part(c)
+import numpy as np
 # Define the matrix A
 A = np.array([[-2, 2, -3],
               [2, 1, -6],
