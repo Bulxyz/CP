@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 
 def lagrange_interpolation(x_data, y_data, x_interp):
     """
@@ -30,21 +29,24 @@ def lagrange_interpolation(x_data, y_data, x_interp):
 
     return np.array(y_interp)
 
+
+
 # Data from the table
 x_data = np.array([0, 25, 50, 75, 100, 125, 150, 175, 200])
 y_data = np.array([10.6, 16.0, 45.0, 83.5, 52.8, 19.9, 10.8, 8.25, 4.7])
 
-# Fit the entire spectrum with an eight-degree polynomial
-x_interp = np.linspace(0, 200, 41)  # Interpolate in steps of 5 MeV
+# Interpolate at new points
+x_interp = np.linspace(0, 200, 50)
 y_interp = lagrange_interpolation(x_data, y_data, x_interp)
 
 # Plot the results
+import matplotlib.pyplot as plt
 plt.figure(figsize=(8, 6))
 plt.plot(x_data, y_data, 'ro', label='Data Points')
 plt.plot(x_interp, y_interp, 'b-', label='Interpolated')
 plt.xlabel('E_i (MeV)')
 plt.ylabel('g(E_i) (mb)')
-plt.title('Lagrange Interpolation - Entire Spectrum')
+plt.title('Lagrange Interpolation')
 plt.legend()
 plt.grid()
 plt.show()
